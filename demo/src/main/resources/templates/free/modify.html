@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form th:action="@{/free/modify/{id}(id=${post.id})}" method="POST">
+        <label for="title">제목</label>
+        <input type="text" id="title" name="title" th:value="${post.title}" required>
+        <br/>
+        <label for="content">내용</label>
+        <textarea id="content" name="content" th:text="${post.content}" required></textarea>
+        <br/>
+        <button type="submit">수정 완료</button>
+        <a th:href="@{/free/detail/{id}(id=${post.id})}">취소</a>
+    </form>
+</body>
+</html>
+<!--
+<tr th:each="post : ${posts}">
+    <td th:text="${post.id}">1</td>
+    <td>
+        <a th:href="@{/free/detail/{id}(id=${post.id})}" th:text="${post.title}">제목</a>
+    </td>
+</tr>
+<tr th:if="${#lists.isEmpty(posts)}">
+    <td colspan="2">게시글이 없습니다.</td>
+</tr>-->
