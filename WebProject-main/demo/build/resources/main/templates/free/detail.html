@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function aa(){
+            return confirm("삭제 하시겠습니까?");
+        }
+</script>
+    <div>
+        <a href="/free/list">목록으로 돌아가기</a>
+    </div>
+    <div>
+        <h2>제목
+            <p th:text="${post.title}">제목</p>
+        </h2>
+
+        <h3>내용
+            <p th:text="${post.content}">내용</p>
+        </h3>
+        <h3>작성자
+            <p th:text="${authorName}">작성자</p>
+        </h3>
+
+        <div th:if="${canUpdate}">
+            <a th:href="@{/free/modify/{id}(id=${post.id})}" >수정하기</a>
+            <form th:action="@{/free/delete/{id}(id=${post.id})}" method="post">
+                <button type="submit" >삭제하기</button>
+            </form>
+        </div>
+
+    </div>
+
+</body>
+</html>

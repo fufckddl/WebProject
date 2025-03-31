@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>자유게시판 페이지 입니다.</h1>
+
+    <div>
+        <a href="/">메인</a>
+    </div>
+
+    <div th:if="${loggedInUser != null}">
+        <a href="/free/create">글쓰기</a>
+    </div>
+    <div th:if="${loggedInUser == null}">
+        <p>글쓰기는 로그인이 필요합니다.<a href="/user/login">로그인</a></p>
+    </div>
+    <div>
+        <table>
+            <thead>
+            <tr> <!-- 열-->
+                <th>번호</th><!--행-->
+                <th>제목</th>
+            </tr>
+
+            </thead>
+            <tbody>
+                <tr th:each="post : ${posts}">
+                    <td th:text="${post.id}">1</td>
+                    <td>
+                        <a th:href="@{/free/detail/{id}(id=${post.id})}" th:text="${post.title}">제목</a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(posts)}">
+                    <td colspan="2">게시글이 없습니다.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
