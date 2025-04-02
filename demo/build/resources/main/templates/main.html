@@ -3,29 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>메인 페이지</title>
-    <script>
-        function confirmLogout(){
-            return confirm("로그아웃 하시겠습니까?");
-        }
-    </script>
 </head>
 <body>
-    <h1>메인 페이지 입니다.</h1>
-    <div th:if="${loggedInUser != null}">
-        <p>
-            환영합니다. <Strong th:text="${loggedInUser.username}">[사용자 이름]</Strong>님!
-            <a href="/user/logout" onclick="confirmLogout();">로그아웃</a>
-            <a href="/free/list">자유게시판</a>
-        </p>
-    </div>
-
-    <div th:if="${loggedInUser == null}">
-        <a href="/user/signup">회원가입</a>
-        <a href="/user/login">로그인</a>
-        <br>
+    <header>
+        <h1>나의 웹 사이트</h1>
+    </header>
+    <nav>
+        <a href="/">홈</a>
         <a href="/free/list">자유게시판</a>
+    </nav>
+
+    <div class="user_info">
+        <div th:if="${loggedInUser != null}">
+            <p>환영합니다, <strong th:text="${loggedInUser.username}">[사용자 이름]</strong>님</p>
+            <form th:action="@{/logout}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit">로그아웃</button>
+            </form>
+        </div>
+        <div th:if="${loggedInUser == null}">
+            <a href="/user/signup">회원가입</a>
+            <a href="/user/login">로그인</a>
+        </div>
     </div>
 
+    <footer>
+        <p>2025 나의 웹 사이트, 모든 권리 보유</p>
+    </footer>
 
 </body>
 </html>
