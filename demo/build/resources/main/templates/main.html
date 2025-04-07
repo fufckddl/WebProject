@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/style.css}">
     <title>메인 페이지</title>
 </head>
 <body>
@@ -13,7 +14,7 @@
         <a href="/free/list">자유게시판</a>
     </nav>
 
-    <div class="user_info">
+    <div class="user-info">
         <div th:if="${loggedInUser != null}">
             <p>환영합니다, <strong th:text="${loggedInUser.username}">[사용자 이름]</strong>님</p>
             <form th:action="@{/logout}" method="post">

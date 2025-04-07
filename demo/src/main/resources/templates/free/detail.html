@@ -1,38 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>게시글 상세</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body>
+<h1>게시글 상세</h1>
 <script>
     function aa(){
             return confirm("삭제 하시겠습니까?");
         }
 </script>
     <div>
-        <a href="/free/list">목록으로 돌아가기</a>
+        <strong>제목: </strong><span th:text="${post.title}"></span><br>
+        <strong>작성자: </strong>
+        <span th:text="${post.author != null ? post.author.username : '탈퇴 완료'}"></span><br>
+        <strong>작성일: </strong>
+        <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></span><br>
+    </div>
+    <hr>
+    <div>
+        <pre th:text="${post.content}"></pre>
     </div>
     <div>
-        <h2>제목
-            <p th:text="${post.title}">제목</p>
-        </h2>
-
-        <h3>내용
-            <p th:text="${post.content}">내용</p>
-        </h3>
-        <h3>작성자
-            <p th:text="${authorName}">작성자</p>
-        </h3>
-
-        <div th:if="${canUpdate}">
-            <a th:href="@{/free/modify/{id}(id=${post.id})}" >수정하기</a>
-            <form th:action="@{/free/delete/{id}(id=${post.id})}" method="post">
-                <button type="submit" >삭제하기</button>
+        <th:block th:if="${post.author != null and post.author.id == loginUserId}">
+            <a th:href="@{'/free/edit/' + ${post.id}}">수정</a>
+            <form th:action="@{'/free/delete/' + ${post.id}}" method="post" style="display:inline;">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit">삭제</button>
             </form>
-        </div>
-
+        </th:block>
     </div>
+    <hr>
+    <div>
+        <form>
+            <button type="submit">댓글 작성하기</button>
+        </form>
+    </div>
+    <div>
+        <h4>댓글</h4>
 
+        <!-- 댓글 리스트로 담아와야지? -->
+    </div>
+    <hr>
+    <div>
+        <a th:href="@{/free/list}">목록으로</a>
+    </div>
 </body>
 </html>

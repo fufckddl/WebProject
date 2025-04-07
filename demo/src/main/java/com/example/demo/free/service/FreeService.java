@@ -1,5 +1,6 @@
 package com.example.demo.free.service;
 
+import com.example.demo.free.dto.FreeDto;
 import com.example.demo.free.entity.Free;
 import com.example.demo.free.repository.FreeRepository;
 import com.example.demo.user.entity.SiteUser;
@@ -13,34 +14,36 @@ import java.util.List;
 @Service
 public class FreeService {
     private final FreeRepository freeRepository;
-    public void createPost(String title, String content, SiteUser author)
+    public void create(FreeDto dto, SiteUser author)
     {
         Free post = new Free();
-        post.setTitle(title);
-        post.setContent(content);
+        post.setTitle(dto.getTitle());
+        post.setContent(dto.getContent());
         post.setAuthor(author);
         freeRepository.save(post);
     }
 
-    public void modifyPost(Long id, String title, String content, SiteUser author)
+    public void update(Long id, FreeDto dto)
     {
         Free post = getPostId(id);
-        post.setTitle(title);
-        post.setContent(content);
+        post.setTitle(dto.getTitle());
+        post.setContent(dto.getContent());
         //post.setAuthor(author);
         freeRepository.save(post);
     }
-    public void deletePost(Long id)
+    public void delete(Long id)
     {
-        Free post = getPostId(id);
-        //freeRepository.delete(post);
         freeRepository.deleteById(id);
     }
 
-    public List<Free> getAllPosts(){
+    public List<Free> findAll(){
         return freeRepository.findAll();
     }
 
+    public Free findById(Long id)
+    {
+        return freeRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
+    }
     public Free getPostId(Long id) {
         return freeRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
     }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>댓글 작성</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<span th:text="${postId != null ? '게시글 댓글 작성' : '게시글 댓글 작성'}"></span>
+
+<form th:action="${postId != null} ? @{'/free/edit/' + ${postId}} : @{/free/create}" method="post" th:object="${freeDto}">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+    <div>
+        <label for="title">제목</label>
+        <input type="text" id="title" th:field="*{title}"/>
+        <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+    </div>
+
+    <div>
+        <label for="content">내용</label>
+        <textarea id="content" th:field="*{content}" rows="10"></textarea>
+        <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
+    </div>
+
+    <div>
+        <button type="submit">저장</button>
+        <a th:href="@{/free/list}">취소.</a>
+    </div>
+</form>
+</body>
