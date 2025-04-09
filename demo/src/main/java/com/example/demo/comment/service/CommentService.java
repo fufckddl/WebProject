@@ -3,7 +3,6 @@ package com.example.demo.comment.service;
 import com.example.demo.comment.dto.CommentDto;
 import com.example.demo.comment.entity.Comment;
 import com.example.demo.comment.repository.CommentRepository;
-import com.example.demo.free.dto.FreeDto;
 import com.example.demo.free.entity.Free;
 import com.example.demo.free.repository.FreeRepository;
 import com.example.demo.user.entity.SiteUser;
@@ -15,15 +14,17 @@ import org.springframework.stereotype.Service;
 public class CommentService {
     private final CommentRepository commentRepository;
     private final FreeRepository freeRepository;
-    
+
     //댓글 작성
-    public void createComment(CommentDto dto, SiteUser author){
-        Comment cmt = new Comment();
-        cmt.setContent(dto.getContent());
-        cmt.setAuthor(author);
-        commentRepository.save(cmt);
+    public void createComment(CommentDto dto, SiteUser author) {
+        Comment comment = new Comment();
+        comment.setContent(dto.getContent());
+        comment.setAuthor(author);
+        //comment.setPost(post);
+
+        commentRepository.save(comment);
     }
-    
+
     //댓글 수정하기
     public void updateComment(Long id, CommentDto dto)
     {

@@ -6,9 +6,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+@Entity
 @Getter
 @Setter
-@Entity
 public class Comment {
 
     @Id
@@ -18,12 +18,10 @@ public class Comment {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", nullable = false)
     private SiteUser author;
 
-    @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false)
-    private Free postId;
 
+    // postId 필드는 제거!
 }

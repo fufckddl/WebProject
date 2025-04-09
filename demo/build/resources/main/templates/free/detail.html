@@ -33,15 +33,18 @@
         </th:block>
     </div>
     <hr>
-    <div>
-        <form>
-            <button type="submit">댓글 작성하기</button>
-        </form>
-    </div>
-    <div>
-        <h4>댓글</h4>
 
-        <!-- 댓글 리스트로 담아와야지? -->
+    <div>
+        <h4>댓글 목록</h4>
+        <!-- ㅇㅇ-->
+    </div>
+    <hr>
+    <div>
+        <form th:action="@{/free/detail/{id}(id=${post.id})}" method="post" th:object="${cmtDto}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <textarea th:field="*{content}"></textarea>
+            <button type="submit">댓글 작성</button>
+        </form>
     </div>
     <hr>
     <div>

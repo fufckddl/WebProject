@@ -45,6 +45,6 @@ public class Free {
     }
     
     //댓글리스트
-    @Column(nullable = true)
-    private List<String> comment;
+    /*@Column(nullable = true)
+    private List<String> comment;*/
 }

@@ -23,7 +23,7 @@ public class SecurityConfig {
                         //누구나 접근가능(CSS,JS 정적자원 관리하는데 이걸 사용 가능하도록)
                         .requestMatchers("/", "/user/login", "/user/signup", "/css/**", "/js/**").permitAll() //permitALL()전부 허용
                         //누구나 접근불가
-                        .requestMatchers("/free/create", "/free/modify/**", "/free/delete/**").authenticated() //로그인한 사람만 접근 허용
+                        .requestMatchers("/free/create", "/free/modify/**", "/free/delete/**", "/comment/write").authenticated() //로그인한 사람만 접근 허용
                         .anyRequest().permitAll() //그 외(위에 3개 제외)는 전부 허용한다는 뜻
                 )
                 //.csrf(csrf-> csrf.disable()) => 보안과 관련된 것, 내가 아닌 다른 사람이 내 이름으로 요청을 보내는 것을 차단(disable)함

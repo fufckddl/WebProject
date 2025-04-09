@@ -1,13 +1,15 @@
 package com.example.demo.free.controller;
 
+import com.example.demo.comment.dto.CommentDto;
+import com.example.demo.comment.service.CommentService;
 import com.example.demo.free.dto.FreeDto;
 import com.example.demo.free.entity.Free;
 import com.example.demo.free.service.FreeService;
-import com.example.demo.user.entity.SiteUser;
 import com.example.demo.user.security.SiteUserDetails;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Comments;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/free")
 public class FreeController {
+    private final CommentService commentService;
     private final FreeService freeService;
 
 
@@ -48,11 +51,31 @@ public class FreeController {
     }
 
     @GetMapping("/detail/{id}")
-    public String detail(@PathVariable("id") Long id, Model model, HttpSession session) {
+    public String detail(@PathVariable("id") Long id, Model model) {
         Free post = freeService.findById(id);
         model.addAttribute("post", post);
         return "/free/detail";
     }
+
+    @PostMapping("/detail/{id}")
+    public String writeComment(@PathVariable("id") Long id,
+                               @Valid @ModelAttribute CommentDto cmtDto,
+                               BindingResult bindingResult,
+                               @AuthenticationPrincipal SiteUserDetails siteUserDetails,
+                               Model model) {
+        if (bindingResult.hasErrors()) {
+            Free post = freeService.findById(id);  // 에러 발생 시 post 다시 세팅
+            model.addAttribute("post", post);
+            return "/free/detail";
+        }
+
+        cmtDto.setPostId(id); // ❗ postId를 dto에 수동으로 넣어주기
+        cmtDto.setContent("content");
+        commentService.createComment(cmtDto, siteUserDetails.getUser());
+
+        return "redirect:/free/detail/" + id;
+    }
+
     //수정
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable Long id, Model model)
