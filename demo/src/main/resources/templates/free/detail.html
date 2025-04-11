@@ -32,19 +32,37 @@
             </form>
         </th:block>
     </div>
-    <hr>
 
-    <div>
-        <h4>댓글 목록</h4>
-        <!-- ㅇㅇ-->
-    </div>
     <hr>
     <div>
         <form th:action="@{/free/detail/{id}(id=${post.id})}" method="post" th:object="${cmtDto}">
+            <!-- cmtDto에 이미 postId가 설정되어 있으므로 value속성을 제거 -->
+            <input type="hidden" th:field="*{postId}" />
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-            <textarea th:field="*{content}"></textarea>
+            <textarea th:field="*{content}" rows="10"></textarea>
             <button type="submit">댓글 작성</button>
         </form>
+    </div>
+    <hr>
+    <h3>댓글목록</h3>
+    <div th:if="${#lists.isEmpty(comments) == false}">
+        <ul>
+            <li th:each="comment : ${comments}" style="list-style-type: none;">
+                <div style="margin-bottom: 10px;">
+                    <strong>댓글 작성자: </strong><span th:text="${comment.author.username}">작성자</span><br>
+                    <strong>내용: </strong><span th:text="${comment.content}">내용</span>
+                    <div style="float: right;">
+                        <th:block th:if="${comment.author != null and comment.author.id == loginUserId}">
+                            <a th:href="@{/comment/edit/{id}(id=${comment.id})}">수정</a>
+                            <form th:action="@{'/comment/delete/' + ${post.id}}" method="post" style="display:inline;">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                <button type="submit">삭제</button>
+                            </form>
+                        </th:block>
+                    </div>
+                </div>
+            </li>
+        </ul>
     </div>
     <hr>
     <div>
